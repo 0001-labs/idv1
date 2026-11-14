@@ -1,8 +1,8 @@
 # IDv1
 
-> **Read first:** `/Users/joachim/.agents/harness-instructions.md` (harness instructions), `/Users/joachim/0001/AGENTS.md` (0001). This file wins where they differ.
+> **Read first:** `/Users/joachim/.agents/harness-instructions.md` (harness instructions), `/Users/joachim/Library/Mobile Documents/com~apple~CloudDocs/0001/AGENTS.md` (0001). This file wins where they differ.
 
-The scheme for codes in 0001's products: short codes whose shape says what they name (an account `Jo4712`, a product `AbCd12`, a list `12ABCD`, an item `Ab12Cd`), how many of each there can be, the words a code must never spell, and the scannable code that carries them. Built from Ezo's (`shared/userCode.ts`, `shared/ezoIdSpace.ts`, `shared/codeWords.ts`, `shared/scanCode.ts`, `shared/scanCodeDrawing.ts`, `generateItemId`/`generateListId` in `convex/app.ts`), which Peer and Ins copied as `shared/ids.ts`. It has nothing to do with signing in: that is Sign-in (`/Users/joachim/0001/Sign-in`). Open source under MIT at https://github.com/0001-labs/IDv1 and on npm as `@0001-labs/idv1`, so nothing personal and no product addresses go in it. `README.md` is the guide; change it with the code.
+The scheme for codes in 0001's products: short codes whose shape says what they name (an account `Jo4712`, a product `AbCd12`, a list `12ABCD`, an item `Ab12Cd`), how many of each there can be, the words a code must never spell, and the scannable code that carries them. Built from Ezo's (`shared/userCode.ts`, `shared/ezoIdSpace.ts`, `shared/codeWords.ts`, `shared/scanCode.ts`, `shared/scanCodeDrawing.ts`, `generateItemId`/`generateListId` in `convex/app.ts`), which Peer and Ins copied as `shared/ids.ts`. It has nothing to do with signing in: that is Sign-in (`/Users/joachim/Library/Mobile Documents/com~apple~CloudDocs/0001/Sign-in`). Open source under MIT at https://github.com/0001-labs/IDv1 and on npm as `@0001-labs/idv1`, so nothing personal and no product addresses go in it. `README.md` is the guide; change it with the code.
 
 ## System parts
 
