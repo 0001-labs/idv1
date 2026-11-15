@@ -15,4 +15,4 @@ codeKind(candidate) // 'item'
 
 Use a unique constraint or a transaction to claim the candidate in your app.
 
-[Documentation](https://idv1.0001.dev/) · [MIT license](LICENSE)
+[MIT license](LICENSE)
