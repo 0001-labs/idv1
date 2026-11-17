@@ -4,8 +4,6 @@ import { join, resolve } from 'node:path'
 import { build } from 'vite'
 import { expect, test } from 'vite-plus/test'
 
-// A page that only reads codes, as a product's site does, must not carry the reserved ones: a product
-// may not name 0001 to its visitors.
 test('a page that only reads codes bundles no reserved code or address', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'idv1-bundle-'))
   const entry = join(dir, 'page.ts')

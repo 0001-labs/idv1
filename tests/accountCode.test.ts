@@ -5,7 +5,6 @@ test('a new account\'s code starts with the first name\'s first two letters, a c
   expect(nameLetters('Leo')).toBe('Le')
   expect(nameLetters('Henrik Nielsen')).toBe('He')
   expect(nameLetters('joachim')).toBe('Jo')
-  // Marks and letters of its own become plain Latin ones.
   expect(nameLetters('Øystein')).toBe('Oy')
   expect(nameLetters('Åse')).toBe('As')
   expect(nameLetters('Émile')).toBe('Em')

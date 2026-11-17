@@ -10,7 +10,6 @@ test('the expanded version counts every six-character code, and events are what 
   expect(ADVANCED_SPACE.all).toBe(56_800_235_584)
   expect(ADVANCED_SPACE.shapes).toBe(2_501_740_800)
   expect(ADVANCED_SPACE.events).toBe(54_298_494_784)
-  // Fifty times as many events as there are items.
   expect(ADVANCED_SPACE.events / ID_SPACE.items).toBeGreaterThan(50)
 })
 
@@ -59,7 +58,6 @@ test('an event candidate draws from cryptographic random numbers by default', ()
 })
 
 test('a random source that only makes shapes is refused rather than looping', () => {
-  // A source that draws Jo4712 every time, an account's shape, never gives an event.
   const shape = 'Jo4712'
   const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
   let index = 0

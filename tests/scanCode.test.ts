@@ -39,7 +39,6 @@ test('accepts profile and list codes but not items', () => {
   expect(isListScanId('Jo4712')).toBe(false)
   expect(isListScanId('53sdLT')).toBe(true)
   expect(isUserScanId('Jo4712')).toBe(true)
-  // A paper product's code, four letters and two digits, is a person's code too.
   expect(isUserScanId('AbCd12')).toBe(true)
   expect(isSupportedScanId('AbCd12')).toBe(true)
   expect(isListScanId('AbCd12')).toBe(false)
@@ -137,54 +136,43 @@ test('RGBA frames locate an apple-green backing and read its cells', () => {
 test('a code under words is read past them: a header cell in two tones with its words over the cells, held askew', () => {
   const id = 'AbCd12'
   const bits = bitsFor(id)
-  // The cell: 320 by 80 round the frame's middle, leaning `lean` radians; a
-  // stroke of the words' ink down the middle of every cell of its two middle
-  // rows, where the plain reader looks.
   const frame = (lean: number, [paper, fill, tone, words]: number[], slope = 0) => (x: number, y: number) => {
     const dx = x - 320, dy = y - 240
     const u = (dx * Math.cos(lean) + dy * Math.sin(lean) + 160) / 20, v = (-dx * Math.sin(lean) + dy * Math.cos(lean) + 40) / 20
     if (u < 0 || u >= 16 || v < 0 || v >= 4) return paper
     if (v >= 1.1 && v < 2.9 && Math.abs((u % 1) - 0.5) < 0.16) return words
-    // A field whose colour turns across it, as a spectrum month's does.
     return (bits[Math.floor(v) * 16 + Math.floor(u)] ? fill : tone) - slope * u
   }
   const neutral = () => false
   for (const lean of [0, 0.03, -0.05]) {
-    // Dark words on a light cell, light words on a dark one, and a cell that darkens across by more than its tones stand apart.
     for (const [levels, slope] of [[[244, 208, 172, 30], 0], [[250, 30, 66, 250], 0], [[244, 210, 176, 30], 4]] as const) {
       const luminance = frame(lean, [...levels], slope)
       expect(readScanFrame(640, 480, luminance, neutral), `lean ${lean} ${levels}`).toBe(id)
     }
   }
-  // The plain reader, a cell's middle alone, cannot: the words lie there.
   const upright = frame(0, [244, 208, 172, 30])
   const rect = { x: 160, y: 200, width: 320, height: 80 }
   expect(sampleScanCode(640, 480, upright, rect)).toBeNull()
   expect(sampleWrittenScanCode(640, 480, upright, rect)).toBe(id)
   expect(sampleWrittenScanCode(640, 480, upright, [160, 200, 480, 200, 480, 280, 160, 280])).toBe(id)
-  // So many readings of one place take only an ID a scan can open: an item's code is left unread.
   const item = bitsFor('Ab12Cd')
   expect(sampleWrittenScanCode(640, 480, (x, y) => (x < 160 || x >= 480 || y < 200 || y >= 280 ? 244 : item[Math.floor((y - 200) / 20) * 16 + Math.floor((x - 160) / 20)] ? 208 : 172), rect)).toBeNull()
-  // Too small to tell a cell's tone from its words.
   expect(sampleWrittenScanCode(640, 480, upright, { x: 160, y: 200, width: 64, height: 16 })).toBeNull()
 })
 
 test('a code is found beside something taller on its rows, and at the end of a line of words', () => {
   const id = 'Albe39'
   const bits = bitsFor(id)
-  // A calendar's cover: the year large at the left, twice the code's height, and the code on the same rows far to its right.
   const code = (x: number, y: number, left: number, top: number, cell: number) => {
     const column = Math.floor((x - left) / cell), row = Math.floor((y - top) / cell)
     return column >= 0 && column < 16 && row >= 0 && row < 4 && !bits[row * 16 + column]
   }
   const cover = (x: number, y: number) => {
-    // The year: a block of ink 120 by 80, standing in for its figures.
     if (x >= 40 && x < 160 && y >= 200 && y < 280 && Math.floor((x - 40) / 12) % 2 === 0) return 30
     return code(x, y, 420, 200, 10) ? 30 : 245
   }
   expect(readScanFrame(640, 480, cover, () => false)).toBe(id)
   expect(scanCodeRegions(640, 480, (x, y) => cover(x, y) < 130)).toContainEqual({ x: 420, y: 200, width: 160, height: 40 })
-  // A sheet's foot: the product's name and the code straight after it on one row, the gap smaller than the row is tall.
   const foot = (x: number, y: number) => {
     if (x >= 300 && x < 340 && y >= 300 && y < 324 && Math.floor((x - 300) / 6) % 2 === 0) return 30
     return code(x, y, 348, 300, 6) ? 30 : 245
